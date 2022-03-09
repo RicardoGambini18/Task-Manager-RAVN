@@ -1,0 +1,8 @@
+build/*
+public/*
+.vscode/*
+src/react-app-env.d.ts
+src/reportWebVitals.ts
+src/setupTests.ts
+*.css
+*.svg
