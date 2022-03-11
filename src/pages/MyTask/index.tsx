@@ -1,6 +1,6 @@
-import React, { ReactElement } from 'react'
+import React, { ReactElement, FunctionComponent } from 'react'
 
-function MyTask(): ReactElement {
+const MyTask: FunctionComponent = (): ReactElement => {
   return <div>My Task</div>
 }
 

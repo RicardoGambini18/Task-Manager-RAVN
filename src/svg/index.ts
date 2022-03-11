@@ -1,0 +1,6 @@
+export { default as LogoSvg } from './LogoSvg'
+export { default as DashboardSvg } from './DashboardSvg'
+export { default as BarsSvg } from './BarsSvg'
+export { default as BellSvg } from './BellSvg'
+export { default as SearchSvg } from './SearchSvg'
+export { default as PlusSvg } from './PlusSvg'

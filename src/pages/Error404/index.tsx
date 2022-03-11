@@ -1,6 +1,6 @@
-import React, { ReactElement } from 'react'
+import React, { ReactElement, FunctionComponent } from 'react'
 
-function Error404(): ReactElement {
+const Error404: FunctionComponent = (): ReactElement => {
   return <div>Error 404</div>
 }
 

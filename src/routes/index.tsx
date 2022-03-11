@@ -1,29 +1,38 @@
 import React, { ReactElement } from 'react'
 import { useRoutes, Navigate } from 'react-router-dom'
 import { Dashboard, MyTask, Error404 } from '../pages'
+import { DashboardLayout } from '../layouts'
+import paths from './paths'
 
 const Router = (): ReactElement | null => {
   return useRoutes([
     {
-      path: 'app',
+      path: paths.APP.BASE,
+      element: <DashboardLayout />,
       children: [
         {
-          path: 'dashboard',
+          path: paths.APP.DASHBOARD.BASE,
           element: <Dashboard />,
         },
         {
-          path: 'myTask',
+          path: paths.APP.MYTASK.BASE,
           element: <MyTask />,
         },
       ],
     },
-    { path: '/', element: <Navigate to="/app/dashboard" replace /> },
+    {
+      path: paths.ERROR.BASE,
+      children: [
+        {
+          path: paths.ERROR[404].BASE,
+          element: <Error404 />,
+        },
+      ],
+    },
+    { path: '/', element: <Navigate to={paths.APP.DASHBOARD.ROUTE} replace /> },
     {
       path: '*',
-      children: [
-        { path: '404', element: <Error404 /> },
-        { path: '*', element: <Navigate to="/404" replace /> },
-      ],
+      children: [{ path: '*', element: <Navigate to={paths.ERROR[404].ROUTE} replace /> }],
     },
   ])
 }

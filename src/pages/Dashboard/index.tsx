@@ -1,6 +1,6 @@
-import React, { ReactElement } from 'react'
+import React, { ReactElement, FunctionComponent } from 'react'
 
-function Dashboard(): ReactElement {
+const Dashboard: FunctionComponent = (): ReactElement => {
   return <div>Dashboard</div>
 }
 
