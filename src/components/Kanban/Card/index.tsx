@@ -125,7 +125,7 @@ const Card: FunctionComponent<CardProps> = ({
           </CardRowTitleStyle>
           <CardRowStyle>
             <CardPointsStyle>
-              {pointEstimate} Point{+pointEstimate > 1 && 's'}
+              {pointEstimate} point{+pointEstimate !== 1 && 's'}
             </CardPointsStyle>
             <CardDateStyle
               textColor={getDate(dueDate).textColor}

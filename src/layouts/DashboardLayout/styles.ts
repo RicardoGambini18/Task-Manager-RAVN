@@ -44,6 +44,7 @@ export const AddButtonStyle = styled.div`
     position: fixed;
     bottom: 16px;
     right: 16px;
+    z-index: 99;
   }
 `
 
@@ -64,4 +65,39 @@ export const MainSectionStyle = styled.main`
   height: 100%;
   position: relative;
   overflow: auto;
+  scrollbar-width: thin;
+  scrollbar-color: black transparent;
+  &::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  &::-webkit-scrollbar-button {
+    width: 0;
+    height: 0;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: ${(props) => props.theme.palette.neutral[3]};
+    border: 0;
+    border-radius: 100px;
+  }
+  &::-webkit-scrollbar-thumb:hover {
+    background: ${(props) => props.theme.palette.neutral[2]};
+  }
+  &::-webkit-scrollbar-thumb:active {
+    background: ${(props) => props.theme.palette.neutral[2]};
+  }
+  &::-webkit-scrollbar-track {
+    background: none;
+    border: 0;
+    border-radius: 70px;
+  }
+  &::-webkit-scrollbar-track:hover {
+    background: none;
+  }
+  &::-webkit-scrollbar-track:active {
+    background: none;
+  }
+  &::-webkit-scrollbar-corner {
+    background: transparent;
+  }
 `

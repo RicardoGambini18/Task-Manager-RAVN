@@ -1,7 +1,7 @@
 import React, { ReactElement, FunctionComponent } from 'react'
 import { RootStyle, SearchStyle } from './styles'
-import { Avatar } from '../index'
 import { BellSvg, SearchSvg } from '../../svg'
+import UserAvatar from './UserAvatar'
 
 const TopNavigationBar: FunctionComponent = (): ReactElement => {
   return (
@@ -14,7 +14,7 @@ const TopNavigationBar: FunctionComponent = (): ReactElement => {
         <BellSvg />
       </div>
       <div style={{ gridArea: 'avatar' }}>
-        <Avatar size={40} />
+        <UserAvatar />
       </div>
     </RootStyle>
   )

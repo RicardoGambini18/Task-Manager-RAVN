@@ -47,11 +47,11 @@ export interface ColumnProps {
 }
 
 export interface KanbanStateProps {
-  backlog: ColumnProps
-  cancelled: ColumnProps
-  done: ColumnProps
-  in_progress: ColumnProps
-  to_do: ColumnProps
+  BACKLOG: ColumnProps
+  CANCELLED: ColumnProps
+  DONE: ColumnProps
+  IN_PROGRESS: ColumnProps
+  TODO: ColumnProps
 }
 
 export interface DateProps {

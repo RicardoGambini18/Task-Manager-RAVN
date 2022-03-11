@@ -7,9 +7,27 @@ export const KanbanStyle = styled.div`
   gap: 32px;
 `
 
+export const LoadingKanbanStyle = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 600;
+  font-size: ${(props) => props.theme.typography.android.body.XL.fontSize}px;
+  line-height: ${(props) => props.theme.typography.android.body.XL.lineHeight}px;
+  letter-spacing: ${(props) => props.theme.typography.android.body.XL.spacing}px;
+  color: ${(props) => props.theme.palette.neutral[1]};
+`
+
 export const ColumnStyle = styled.div`
   display: grid;
   gap: 16px;
+  min-height: 100%;
+  grid-auto-rows: min-content;
 `
 
 export const TitleStyle = styled.h2`
