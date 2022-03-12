@@ -14,6 +14,7 @@ import {
   TableBody,
   TableHead,
   WrapSwitchIcon,
+  NotFound,
 } from './styles'
 import { ArrowSvg } from '../../svg'
 import { Avatar } from '../../components'
@@ -170,76 +171,102 @@ const MyTask: FunctionComponent = (): ReactElement => {
     data.tasks && (
       <RootStyle>
         <TableTitle>
-          <SimpleCell># Task Name</SimpleCell>
-          <SimpleCell>Task Tags</SimpleCell>
-          <SimpleCell>Estimate</SimpleCell>
-          <SimpleCell>Task Assign Name</SimpleCell>
-          <SimpleCell>Due Date</SimpleCell>
+          <TableHead>
+            <TableRow>
+              <SimpleCell># Task Name</SimpleCell>
+              <SimpleCell>Task Tags</SimpleCell>
+              <SimpleCell>Estimate</SimpleCell>
+              <SimpleCell>Task Assign Name</SimpleCell>
+              <SimpleCell>Due Date</SimpleCell>
+            </TableRow>
+          </TableHead>
         </TableTitle>
-        {Object.values(kanbanColumns).map((col: ColumnProps) => (
-          <Table key={col.id}>
-            <TableHead>
-              <TableRow>
-                <TableHeader
-                  onClick={() =>
-                    setListsOpen((prev) => ({
-                      ...prev,
-                      [col.id]: !prev[col.id],
-                    }))
-                  }
-                >
-                  <WrapSwitchIcon open={listsOpen[col.id]}>
-                    <ArrowSvg />
-                  </WrapSwitchIcon>
-                  {col.title}{' '}
-                  <span>
-                    ({col.list.length < 10 && 0}
-                    {col.list.length})
-                  </span>
-                </TableHeader>
-              </TableRow>
-            </TableHead>
-            <TableBody open={listsOpen[col.id]} items={col.list.length}>
-              {col.list
-                .filter((task) => {
-                  const parseName = task.name.toUpperCase()
-                  const parseQuery = queryTask.toUpperCase()
-                  return parseName.indexOf(parseQuery) !== -1
-                })
-                .map((task) => {
-                  const { day, color } = getDateInfo(task.dueDate)
-                  const firstTagData = task.tags.length && getTagsColor(task.tags[0])
+        {((): ReactElement | boolean => {
+          const fullTasks = [
+            ...kanbanColumns.BACKLOG.list,
+            ...kanbanColumns.TODO.list,
+            ...kanbanColumns.IN_PROGRESS.list,
+            ...kanbanColumns.DONE.list,
+            ...kanbanColumns.CANCELLED.list,
+          ]
+          const filterFullTasks = fullTasks.filter((task) => {
+            const parseName = task.name.toUpperCase()
+            const parseQuery = queryTask.toUpperCase()
+            return parseName.indexOf(parseQuery) !== -1
+          })
+          return (
+            Boolean(!filterFullTasks.length) && (
+              <NotFound>There are no matching tasks for the word: &quot;{queryTask}&quot;</NotFound>
+            )
+          )
+        })()}
+        {Object.values(kanbanColumns).map((col: ColumnProps) => {
+          const filterColumn = col.list.filter((task) => {
+            const parseName = task.name.toUpperCase()
+            const parseQuery = queryTask.toUpperCase()
+            return parseName.indexOf(parseQuery) !== -1
+          })
+          return (
+            Boolean(filterColumn.length) && (
+              <Table key={col.id}>
+                <TableHead>
+                  <TableRow>
+                    <TableHeader
+                      onClick={() =>
+                        setListsOpen((prev) => ({
+                          ...prev,
+                          [col.id]: !prev[col.id],
+                        }))
+                      }
+                    >
+                      <WrapSwitchIcon open={listsOpen[col.id]}>
+                        <ArrowSvg />
+                      </WrapSwitchIcon>
+                      {col.title}{' '}
+                      <span>
+                        ({col.list.length < 10 && 0}
+                        {col.list.length})
+                      </span>
+                    </TableHeader>
+                  </TableRow>
+                </TableHead>
+                <TableBody open={listsOpen[col.id]} items={col.list.length}>
+                  {filterColumn.map((task) => {
+                    const { day, color } = getDateInfo(task.dueDate)
+                    const firstTagData = task.tags.length && getTagsColor(task.tags[0])
 
-                  return (
-                    <TableRow key={task.id}>
-                      <NameCell lineColor={color}>
-                        {task.position < 10 && 0}
-                        {task.position} {task.name}
-                      </NameCell>
-                      <SimpleCell>
-                        {firstTagData && (
-                          <TagStyle
-                            textColor={firstTagData.textColor}
-                            bgColor={firstTagData.bgColor}
-                          >
-                            {task.tags[0]}
-                          </TagStyle>
-                        )}
-                        {task.tags.length > 1 && <TagStyle>+{task.tags.length - 1}</TagStyle>}
-                      </SimpleCell>
-                      <SimpleCell>{getPointEstimate(task.pointEstimate)} Points</SimpleCell>
-                      <SimpleCell>
-                        <Avatar src={task.assignee.avatar} />
-                        {task.assignee.fullName.split(' ')[0]}{' '}
-                        {task.assignee.fullName.split(' ')[1]}
-                      </SimpleCell>
-                      <SimpleCell>{day}</SimpleCell>
-                    </TableRow>
-                  )
-                })}
-            </TableBody>
-          </Table>
-        ))}
+                    return (
+                      <TableRow key={task.id}>
+                        <NameCell lineColor={color}>
+                          {task.position < 10 && 0}
+                          {task.position} {task.name}
+                        </NameCell>
+                        <SimpleCell>
+                          {firstTagData && (
+                            <TagStyle
+                              textColor={firstTagData.textColor}
+                              bgColor={firstTagData.bgColor}
+                            >
+                              {task.tags[0]}
+                            </TagStyle>
+                          )}
+                          {task.tags.length > 1 && <TagStyle>+{task.tags.length - 1}</TagStyle>}
+                        </SimpleCell>
+                        <SimpleCell>{getPointEstimate(task.pointEstimate)} Points</SimpleCell>
+                        <SimpleCell>
+                          <Avatar src={task.assignee.avatar} />
+                          {task.assignee.fullName.split(' ')[0]}{' '}
+                          {task.assignee.fullName.split(' ')[1]}
+                        </SimpleCell>
+                        <SimpleCell>{day}</SimpleCell>
+                      </TableRow>
+                    )
+                  })}
+                </TableBody>
+              </Table>
+            )
+          )
+        })}
       </RootStyle>
     )
   )

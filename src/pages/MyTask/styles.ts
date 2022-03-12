@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-const gridColDistribution = '1fr 180px 120px 168px 163px'
+const gridColDistribution = '1fr 200px 120px 180px 170px'
 const gridRowDistribution = 'repeat(auto-fit, 56px)'
 
 export const RootStyle = styled.div`
@@ -17,20 +17,21 @@ export const RootStyle = styled.div`
   }
 `
 
+export const NotFound = styled.p`
+  font-weight: 600;
+  color: ${(props) => props.theme.palette.neutral[1]};
+  font-size: ${(props) => props.theme.typography.android.body.XL.fontSize}px;
+  line-height: ${(props) => props.theme.typography.android.body.XL.lineHeight}px;
+  letter-spacing: ${(props) => props.theme.typography.android.body.XL.spacing}px;
+`
+
 export const TableTitle = styled.table`
   width: 100%;
   display: grid;
   grid-template-rows: ${gridRowDistribution};
-  grid-template-columns: ${gridColDistribution};
   border-radius: 4px;
   border: 1px solid ${(props) => props.theme.palette.neutral[3]};
   background-color: ${(props) => props.theme.palette.neutral[4]};
-  td {
-    border-right: 1px solid ${(props) => props.theme.palette.neutral[3]};
-  }
-  td:last-of-type {
-    border-right: none;
-  }
 `
 
 export const SimpleCell = styled.td`
