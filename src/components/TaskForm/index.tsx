@@ -12,7 +12,7 @@ import { useQuery, useMutation } from '@apollo/client'
 import moment from 'moment'
 import * as Yup from 'yup'
 import { useKanban } from '../../hooks'
-import { getUsersQuery, createTaskMutation } from '../../graphql'
+import { getUsersQuery, createTaskMutation, updateCompleteTaskMutation } from '../../graphql'
 import {
   RootStyle,
   TitleInput,
@@ -29,6 +29,8 @@ import {
 import { UserSvg, CalendarSvg, PointsSvg, TagsSvg } from '../../svg'
 import { Button, Avatar } from '../index'
 import { FormProps, UserProps, DateInputProps, TaskFormPorps } from './types'
+import { ColumnProps } from '../Kanban/types'
+import { sortTasks } from '../Kanban/helpers'
 
 import 'react-datepicker/dist/react-datepicker.css'
 
@@ -38,8 +40,44 @@ const TaskForm: FunctionComponent<TaskFormPorps> = ({ onCancel, initialValues })
   const [openTags, setOpenTags] = useState(false)
   const { setKanbanColumns } = useKanban()
   const [createTask, { data: taskData, loading: taskLoading }] = useMutation(createTaskMutation)
+  const [updateTask, { data: updateData, loading: updateLoading }] = useMutation(
+    updateCompleteTaskMutation
+  )
 
   const { data, loading } = useQuery(getUsersQuery)
+
+  useEffect(() => {
+    if (!updateLoading && updateData) {
+      setKanbanColumns((prev) => {
+        const getColumn = (): ColumnProps => {
+          switch (updateData.updateTask.status) {
+            case 'BACKLOG':
+              return prev.BACKLOG
+            case 'TODO':
+              return prev.TODO
+            case 'IN_PROGRESS':
+              return prev.IN_PROGRESS
+            case 'DONE':
+              return prev.DONE
+            case 'CANCELLED':
+              return prev.CANCELLED
+            default:
+              return prev.BACKLOG
+          }
+        }
+        const col = getColumn()
+        const removedCol = col.list.filter((item) => item.id !== updateData.updateTask.id)
+        const newList = [...removedCol, updateData.updateTask].sort(sortTasks)
+        return {
+          ...prev,
+          [updateData.updateTask.status]: {
+            ...col,
+            list: newList,
+          },
+        }
+      })
+    }
+  }, [updateData, updateLoading, setKanbanColumns])
 
   useEffect(() => {
     if (!taskLoading && taskData) {
@@ -63,23 +101,38 @@ const TaskForm: FunctionComponent<TaskFormPorps> = ({ onCancel, initialValues })
   })
 
   const formik = useFormik<FormProps>({
-    enableReinitialize: false,
-    initialValues: initialValues || {
-      pointEstimate: '',
-      assigneeId: '',
-      dueDate: moment().format(),
-      name: '',
-      status: 'BACKLOG',
-      tags: [],
+    enableReinitialize: true,
+    initialValues: {
+      pointEstimate: (initialValues && initialValues.pointEstimate) || '',
+      assigneeId: (initialValues && initialValues.assigneeId) || '',
+      dueDate: (initialValues && initialValues.dueDate) || moment().format(),
+      name: (initialValues && initialValues.name) || '',
+      status: (initialValues && initialValues.status) || 'BACKLOG',
+      tags: (initialValues && initialValues.tags) || [],
     },
     validationSchema: taskValidationSchema,
-    onSubmit: (values, { setSubmitting }) => {
+    onSubmit: (values, { setSubmitting, resetForm }) => {
       if (!initialValues) {
         // Create task
         createTask({ variables: values })
+        resetForm()
         onCancel()
       } else {
         // Edit task
+        updateTask({
+          variables: {
+            assigneeId: values.assigneeId,
+            dueDate: values.dueDate,
+            name: values.name,
+            pointEstimate: values.pointEstimate,
+            status: values.status,
+            id: initialValues.id,
+            position: initialValues.position,
+            tags: values.tags,
+          },
+        })
+        resetForm()
+        onCancel()
       }
       setSubmitting(false)
     },
@@ -93,7 +146,7 @@ const TaskForm: FunctionComponent<TaskFormPorps> = ({ onCancel, initialValues })
       value: 'Zero',
     },
     {
-      text: '1 Points',
+      text: '1 Point',
       value: 'ONE',
     },
     {
@@ -156,7 +209,7 @@ const TaskForm: FunctionComponent<TaskFormPorps> = ({ onCancel, initialValues })
                 <PointsSvg />
                 {values.pointEstimate === ''
                   ? 'Estimate'
-                  : estimateOptions.filter((item) => item.value === values.pointEstimate)[0].text}
+                  : estimateOptions.filter((item) => item.value === values.pointEstimate)[0]?.text}
               </InputWrapper>
               <StyledDropBox open={openEstimate} width={123}>
                 <DropBoxTitle>Estimate</DropBoxTitle>
@@ -319,7 +372,7 @@ const TaskForm: FunctionComponent<TaskFormPorps> = ({ onCancel, initialValues })
                 )
               )}
             >
-              Create
+              {initialValues ? 'Update' : 'Create'}
             </Button>
           </ButtonRow>
         </RootStyle>

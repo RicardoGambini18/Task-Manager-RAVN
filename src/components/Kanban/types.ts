@@ -20,6 +20,7 @@ export interface CardProps {
   position: number
   dueDate: string
   pointEstimate: string
+  status: string
   assignee: {
     id: string
     avatar: string

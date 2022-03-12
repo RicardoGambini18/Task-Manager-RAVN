@@ -2,9 +2,11 @@ export interface FormProps {
   pointEstimate: string
   assigneeId: string
   dueDate: string
+  position?: number
   name: string
   status: string
   tags: string[]
+  id?: string
 }
 
 export interface UserProps {

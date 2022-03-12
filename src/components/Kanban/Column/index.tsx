@@ -28,6 +28,7 @@ const Column: FunctionComponent<ColumnProps> = ({ id, list, title }): ReactEleme
                 pointEstimate={task.pointEstimate}
                 assignee={task.assignee}
                 name={task.name}
+                status={task.status}
               />
             ))}
             {provided.placeholder}

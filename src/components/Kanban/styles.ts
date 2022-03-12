@@ -122,3 +122,57 @@ export const CardButtonStyle = styled.div`
   letter-spacing: ${(props) => props.theme.typography.android.body.M.spacing}px;
   color: ${(props) => props.theme.palette.neutral[1]};
 `
+
+interface WrapProps {
+  modalOpened: boolean
+}
+
+export const WrapDotsButton = styled.div<WrapProps>`
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  position: relative;
+  z-index: ${(props) => (props.modalOpened ? 'initial' : 10)};
+`
+
+interface DropBoxProps {
+  width: number
+  open: boolean
+}
+
+export const StyledDropBox = styled.div<DropBoxProps>`
+  position: absolute;
+  top: calc(100% + 0px);
+  display: ${(props) => (props.open ? 'grid' : 'none')};
+  gap: 20px;
+  cursor: default;
+  right: 0;
+  width: ${(props) => props.width}px;
+  padding: 15px;
+  background: ${(props) => props.theme.palette.neutral[3]};
+  border-radius: 8px;
+  border: 1px solid ${(props) => props.theme.palette.neutral[2]};
+`
+
+export const DropBoxItem = styled.div`
+  width: 80%;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  font-weight: 400;
+  cursor: pointer;
+  font-size: ${(props) => props.theme.typography.android.body.M.fontSize}px;
+  line-height: ${(props) => props.theme.typography.android.body.M.lineHeight}px;
+  letter-spacing: ${(props) => props.theme.typography.android.body.M.spacing}px;
+  color: ${(props) => props.theme.palette.neutral[1]};
+  svg {
+    margin-right: 10px;
+  }
+`
+
+export const ClickButton = styled.div`
+  height: 100%;
+  display: flex;
+  align-items: center;
+`
