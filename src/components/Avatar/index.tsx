@@ -22,4 +22,4 @@ Avatar.defaultProps = {
   loading: false,
 }
 
-export default Avatar
+export default React.memo(Avatar)

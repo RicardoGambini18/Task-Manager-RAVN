@@ -3,11 +3,17 @@ import { useTheme } from 'styled-components'
 import { RootStyle } from './styles'
 import { SvgProps } from '../../svg/StyledSvg'
 
+interface OnClickFunc {
+  (): void
+}
+
 interface ButtonProps {
   variant?: string
   icon?: FunctionComponent<SvgProps>
   active?: boolean
   disabled?: boolean
+  onClick?: OnClickFunc
+  type?: 'button' | 'submit' | 'reset' | undefined
 }
 
 const Button: FunctionComponent<ButtonProps> = ({
@@ -16,6 +22,8 @@ const Button: FunctionComponent<ButtonProps> = ({
   children,
   active,
   disabled,
+  onClick,
+  type,
 }): ReactElement => {
   const theme = useTheme()
 
@@ -35,6 +43,8 @@ const Button: FunctionComponent<ButtonProps> = ({
       icon={Boolean(Icon)}
       active={Boolean(active)}
       disabled={disabled}
+      onClick={onClick}
+      type={type}
     >
       {Icon && <Icon color={getIconColor()} />}
       {children}
@@ -47,6 +57,10 @@ Button.defaultProps = {
   icon: undefined,
   active: false,
   disabled: false,
+  onClick: () => {
+    // empty function
+  },
+  type: 'button',
 }
 
 export default Button

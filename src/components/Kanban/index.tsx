@@ -1,16 +1,17 @@
-import React, { FunctionComponent, ReactElement, useState, useEffect } from 'react'
+import React, { FunctionComponent, ReactElement, useEffect } from 'react'
 import { DragDropContext, DropResult } from 'react-beautiful-dnd'
 import { useQuery, useMutation } from '@apollo/client'
+import { useKanban } from '../../hooks'
 import { getTasksQuery, updateTaskMutation } from '../../graphql'
 import Column from './Column'
-import { KanbanStateProps, ColumnProps } from './types'
+import { ColumnProps } from './types'
 import { KanbanStyle, LoadingKanbanStyle } from './styles'
-import { intialKanbanState, removeCard, insertCard, parseColumns, sortTasks } from './helpers'
+import { removeCard, insertCard, parseColumns, sortTasks } from './helpers'
 
 const Kanban: FunctionComponent = (): ReactElement => {
   const { loading, data } = useQuery(getTasksQuery)
   const [updateTask] = useMutation(updateTaskMutation)
-  const [kanbanColumns, setKanbanColumns] = useState<KanbanStateProps>(intialKanbanState)
+  const { kanbanColumns, setKanbanColumns } = useKanban()
 
   useEffect(() => {
     if (!loading && data.tasks) {
@@ -25,11 +26,9 @@ const Kanban: FunctionComponent = (): ReactElement => {
         )
       ) {
         setKanbanColumns(parseColumns(data.tasks))
-      } else {
-        // Comparar que los objetas no sean iguales para colocarlo en el estado
       }
     }
-  }, [loading, data, kanbanColumns])
+  }, [loading, data, kanbanColumns, setKanbanColumns])
 
   const getColumn = (columnId: string): ColumnProps => {
     switch (columnId) {
@@ -65,7 +64,7 @@ const Kanban: FunctionComponent = (): ReactElement => {
     updateTask({
       variables: {
         id: taskToMove.id,
-        position: destination.index,
+        position: destination.index === 0 ? 1 : destination.index,
         status: destination.droppableId,
       },
     })
@@ -80,7 +79,7 @@ const Kanban: FunctionComponent = (): ReactElement => {
       const newStartList = insertCard(
         removedList,
         taskToMove,
-        destination.index,
+        destination.index === 0 ? 1 : destination.index,
         destination.droppableId
       )
       // Creating new column
@@ -108,7 +107,12 @@ const Kanban: FunctionComponent = (): ReactElement => {
       }
 
       // Adding the card to the end column
-      const newEndList = insertCard(columnEnd.list, taskToMove, destination.index, columnEnd.id)
+      const newEndList = insertCard(
+        columnEnd.list,
+        taskToMove,
+        destination.index === 0 ? 1 : destination.index,
+        columnEnd.id
+      )
       // Creating the new end column
       const newEndColumn = {
         id: columnEnd.id,

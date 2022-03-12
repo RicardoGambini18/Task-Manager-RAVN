@@ -1,30 +1,16 @@
 export interface TaskProps {
   id: string
+  dueDate: string
   name: string
-  tags: string[]
+  pointEstimate: string
+  position: number
   status: string
+  tags: string[]
   assignee: {
     id: string
     fullName: string
-    email: string
-    type: string
     avatar: string
-    createdAt: string
-    updatedAt: string
   }
-  creator: {
-    id: string
-    fullName: string
-    email: string
-    type: string
-    avatar: string
-    createdAt: string
-    updatedAt: string
-  }
-  position: number
-  dueDate: string
-  pointEstimate: string
-  createdAt: string
 }
 
 export interface CardProps {
