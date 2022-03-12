@@ -25,7 +25,7 @@ export const SearchStyle = styled.input`
   border: 0;
   border-radius: 0;
   background: transparent;
-  color: ${(props) => props.theme.palette.neutral[2]};
+  color: ${(props) => props.theme.palette.neutral[1]};
   font-size: ${(props) => props.theme.typography.android.body.M.fontSize}px;
   line-height: ${(props) => props.theme.typography.android.body.M.lineHeight}px;
   letter-spacing: ${(props) => props.theme.typography.android.body.M.spacing}px;
@@ -34,6 +34,17 @@ export const SearchStyle = styled.input`
   &:focus {
     outline: none;
   }
+  &::-webkit-search-decoration,
+  &::-webkit-search-cancel-button,
+  &::-webkit-search-results-button,
+  &::-webkit-search-results-decoration {
+    display: none;
+  }
+`
+
+export const WrapSearchButton = styled.div`
+  grid-area: iconSearch;
+  cursor: pointer;
 `
 
 export const TopBar = styled.div`

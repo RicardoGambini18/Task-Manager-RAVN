@@ -10,9 +10,15 @@ import { KanbanStateProps } from './components/Kanban/types'
 
 function App(): ReactElement {
   const [kanbanColumnsState, setKanbanColumnsState] = useState<KanbanStateProps>(intialKanbanState)
+  const [queryTaskState, setQueryTaskState] = useState<string>('')
   const kanbanContextValue = useMemo<KabanType>(
-    () => ({ kanbanColumns: kanbanColumnsState, setKanbanColumns: setKanbanColumnsState }),
-    [kanbanColumnsState, setKanbanColumnsState]
+    () => ({
+      kanbanColumns: kanbanColumnsState,
+      setKanbanColumns: setKanbanColumnsState,
+      queryTask: queryTaskState,
+      setQueryTask: setQueryTaskState,
+    }),
+    [kanbanColumnsState, setKanbanColumnsState, queryTaskState, setQueryTaskState]
   )
 
   return (
