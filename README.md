@@ -4,11 +4,11 @@ With this task manager, you can organize your tasks using **Agile Methods**, spe
 
 **Preview:** https://task-manager-ravn.vercel.app/app/dashboard
 
-![Dashboard Page](https://res.cloudinary.com/dvcpjgixy/image/upload/v1647107668/2022-03-12_11h10_59_jw4evw.png)
 **Dashboard Page**
+![Dashboard Page](https://res.cloudinary.com/dvcpjgixy/image/upload/v1647107668/2022-03-12_11h10_59_jw4evw.png)
 
-![My Task Page](https://res.cloudinary.com/dvcpjgixy/image/upload/v1647107668/2022-03-12_11h11_06_m58dln.png)
 **My Tasks Page**
+![My Task Page](https://res.cloudinary.com/dvcpjgixy/image/upload/v1647107668/2022-03-12_11h11_06_m58dln.png)
 
 ## Setup
 
@@ -39,32 +39,32 @@ With this task manager, you can organize your tasks using **Agile Methods**, spe
     Src structure:
 	    src
 	    ├── components  # Reusable components
-	    ├── graphql		# Queries and Mutations
-	    ├── hooks		# Custom hooks 
-	    ├── layouts		# Layouts for be used in the useRouter 
-	    ├── pages		# Specific page components, no reusable
-	    ├── routes		# Routes configuration using useRouter
-	    ├── svg			# Save Svg as a components to change their properties easy
-	    ├── theme		# Styled components theming and Global Styles
+	    ├── graphql			# Queries and Mutations
+	    ├── hooks				# Custom hooks 
+	    ├── layouts			# Layouts for be used in the useRouter 
+	    ├── pages				# Specific page components, no reusable
+	    ├── routes			# Routes configuration using useRouter
+	    ├── svg					# Save Svg as a components to change their properties easy
+	    ├── theme				# Styled components theming and Global Styles
 	    ├── utils       # Some help functions
 	    └── ...
 	
 	Src folders structure:
 		ssrc
 	    ├── components  
-		    ├── ComponentOne		# Every src level folder have an index file
-		    ├── ComponentTwo		# where are rexported all the components
-		    ├── ComponentThree		# of this folder for meke its imported easiest.
+		    ├── ComponentOne			# Every src level folder have an index file
+		    ├── ComponentTwo			# where are rexported all the components
+				├── ComponentThree		# of this folder for meke its imported easiest.
 		    ├── index.ts
 			    
     Component structure:
 	    src
 	    ├── components  
 		    ├── ComponentExample
-			    ├── index.tsx		# Main file where I export the component 
-			    ├── styles.ts		# Styled Components
-			    ├── types.ts		# Types for the component and styled components (optional)
-			    ├── helpers.ts		# Help functions (optional)
+			    ├── index.tsx				# Main file where I export the component 
+			    ├── styles.ts				# Styled Components
+			    ├── types.ts				# Types for the component and styled components (optional)
+					├── helpers.ts			# Help functions (optional)
 	
      
   ## Style theming
