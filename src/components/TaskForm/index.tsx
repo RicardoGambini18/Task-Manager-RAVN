@@ -101,7 +101,7 @@ const TaskForm: FunctionComponent<TaskFormPorps> = ({ onCancel, initialValues })
   })
 
   const formik = useFormik<FormProps>({
-    enableReinitialize: true,
+    enableReinitialize: false,
     initialValues: {
       pointEstimate: (initialValues && initialValues.pointEstimate) || '',
       assigneeId: (initialValues && initialValues.assigneeId) || '',
